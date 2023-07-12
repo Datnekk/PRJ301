@@ -57,9 +57,9 @@
                                                     </th>
                                                     <td class="align-middle"><strong>${item.product.price}</strong></td>
                                                     <td class="align-middle">
-                                                        <a href="adjust?action=dec$item.id"><button class="btnSub">-</button></a> 
+                                                        <a href="adjust?action=desc&id=${item.id}"><button class="btnSub">-</button></a> 
                                                         <strong>${item.quantity}</strong>
-                                                        <a href="adjust?action=incre$item.id"><button class="btnAdd">+</button></a>
+                                                        <a href="adjust?action=incre&id=${item.id}"><button class="btnAdd">+</button></a>
                                                     </td>
                                                     <td class="align-middle"><a href="deletecart?did=${item.id}" class="text-dark">
                                                             <button type="button" class="btn btn-danger">Delete</button>

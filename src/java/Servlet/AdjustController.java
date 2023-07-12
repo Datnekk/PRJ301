@@ -5,19 +5,22 @@
 package Servlet;
 
 import Model.Item;
+import Model.Order;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author quang
  */
-@WebServlet(name = "AdjustUpController", urlPatterns = {"/adjustu"})
+@WebServlet(name = "AdjustUpController", urlPatterns = {"/adjust"})
 public class AdjustController extends HttpServlet {
 
     /**
@@ -34,10 +37,12 @@ public class AdjustController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
         int id = Integer.parseInt(request.getParameter("id"));
-         
-        ArrayList<Item> cart = (ArrayList<Item>) request.getSession().getAttribute("cart");
         
-        if (action != null && id>1) {
+        HttpSession session = request.getSession();
+        Order order = (Order) session.getAttribute("cart");
+        List<Item> cart = order.getItems();
+        
+        if (action != null && id > 1) {
             if (action.equals("inc")) {
                 for (Item item : cart) {
                     if (item.getId() == id) {
@@ -48,6 +53,19 @@ public class AdjustController extends HttpServlet {
                     }
                 }
             }
+            if (action.equals("desc")) {
+                for (Item item : cart) {
+                    if (item.getId() == id) {
+                        int quantity = item.getQuantity();
+                        quantity--;
+                        item.setQuantity(quantity);
+                        break;
+                    }
+                }
+                response.sendRedirect("Cart.jsp");
+            }
+        } else {
+             response.sendRedirect("Cart.jsp");
         }
 
     }

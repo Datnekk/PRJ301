@@ -43,15 +43,20 @@ public class DeleteCartControl extends HttpServlet {
 
         List<Item> list = order.getItems();
         
-        for (Item item : list) {
+        for (int i = 0; i < list.size(); i++) {
+            Item item = list.get(i);
             if (item.getId() == did) {
                 list.remove(item);
             }
         }
         
         order.setItems(list);
+        
+        order.setTotal(list.stream().map((Item t) -> t.getPrice() * t.getQuantity()).reduce(0.0, Double::sum));
 
         session.setAttribute("cart", order);
+        
+        response.sendRedirect("Cart.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
